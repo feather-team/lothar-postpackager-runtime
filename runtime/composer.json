@@ -1,0 +1,6 @@
+{
+    "require": {
+        "feather2/blade": "^1.0",
+        "jenssegers/blade": "1.0.0"
+    }
+}
