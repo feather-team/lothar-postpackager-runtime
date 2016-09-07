@@ -5,7 +5,7 @@ define('PREVIEW_ROOT', ROOT . '/preview');
 
 $proj = file_get_contents(PREVIEW_ROOT . '/current');
 
-define('PROJECT_ROOT', sprintf('/%s/project/%s', ROOT, $proj));
+define('PROJECT_ROOT', sprintf('%s/project/%s', ROOT, $proj));
 define('VIEW_ROOT', PROJECT_ROOT . '/view');
 define('DATA_ROOT', PROJECT_ROOT . '/data');
 
