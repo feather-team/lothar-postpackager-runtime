@@ -15,13 +15,19 @@ module.exports = function(ret, conf, setting, opt){
         var name = lothar.config.get('project.name');
         var www = lothar.project.getTempPath('www'), proj = www + '/project/' + name + '/', preview = www + '/preview/';
 
-        lothar.util.copy(__dirname + '/runtime', www);
-        lothar.util.write(www + '/preview/current', name);
-        lothar.util.del(preview + 'data');
+        if(!lothar.runtimeCreated){
+            if(lothar.util.mtime(__dirname + '/package.json') > lothar.util.mtime(www + '/vendor/autoload.php')){
+                lothar.util.copy(__dirname + '/runtime', www);
+            }
+            
+            lothar.util.write(www + '/preview/current', name);
 
-        if(lothar.util.exists(proj + 'static')){
-            lothar.util.copy(proj + 'static', preview + 'static');
-        } 
+            if(lothar.util.exists(proj + 'static')){
+                lothar.util.copy(proj + 'static', preview + 'static');
+            }
+
+            lothar.runtimeCreated = true; 
+        }
 
         lothar.util.map(ret.src, function(subpath, file){
             if(file.isWidget && file.isHtmlLike){
