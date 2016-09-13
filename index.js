@@ -21,11 +21,6 @@ module.exports = function(ret, conf, setting, opt){
             }
             
             lothar.util.write(www + '/preview/current', name);
-
-            if(lothar.util.exists(proj + 'static')){
-                lothar.util.copy(proj + 'static', preview + 'static');
-            }
-
             lothar.runtimeCreated = true; 
         }
 
