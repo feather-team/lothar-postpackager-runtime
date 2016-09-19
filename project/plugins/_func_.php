@@ -1,5 +1,5 @@
 <?php
-function __blade_make__($type, $__env, $id, $data = array()){
+function __blade_make__($type, $__env, $id, $data = array(), $oData = array()){
     list($namespace, $id) = explode(':', $id);
     $id = $namespace . '/' . $type . '/' . $id;
 
@@ -17,8 +17,8 @@ function __blade_make__($type, $__env, $id, $data = array()){
     }
 
     $data['__isRef'] = true;
-    
-    $content = $__env->make($id, $data, array_except(get_defined_vars(), array('__data', '__path')))->render();
+
+    $content = $__env->make($id, $data, $oData)->render();
     
     if($pid){
         $content = '<textarea style="display: none;" id="' . $pid . '">' . $content . '</textarea>';

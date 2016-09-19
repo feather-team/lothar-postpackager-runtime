@@ -36,14 +36,19 @@ $blade = new Blade(VIEW_ROOT, CACHE_ROOT, $container);
 $config = $container['config'];
 $config['view'] = [
     'paths' => $blade->viewPaths,
-    'compiled' => $blade->cachePath
+    'compiled' => $blade->cachePath,
+    'debug' => isset($_GET['debug']),
+    'cache' => false
 ];
 $config['view.suffix'] = $conf['suffix'];
 $container['config'] = $config;
 
 (new BladeProvider\ResourceProvider($container))->register();
 
-$blade->share(getData($path, $conf));
+$data = getData($path, $conf);
+$data['__debugData'] = $data;
+$blade->share($data);
+
 echo $blade->make($path)->render();
 
 function trimSuffix($path, $suffix){
@@ -53,37 +58,35 @@ function trimSuffix($path, $suffix){
 //加载测试数据，包括引用的文件
 function getData($path, $conf){
     $datas = array();
-    $suffix = '.' . $conf['suffix'];
 
     $Maps = new Resource\Maps(VIEW_ROOT . '/_map_');
-    $id = $path . $suffix;
+    $id = $path . '.' . $conf['suffix'];
     $info = $Maps->getIncludeRefs($id);
+    $files = isset($info['refs']) ? array_unique($info['refs']) : array();
+    $files[] = $id;
 
-    if(isset($info['refs'])){
-        $refs = array_unique($info['refs']);
-        $refs[] = $id;
+    array_unshift($files, 'common:_global_');
 
-        foreach($refs as $ref){
-            $ref = str_replace(':', '/', $ref);
-            $ref = rtrim($ref, $suffix);
-            $sp = explode('/', $ref);
-            array_splice($sp, 1, 0, 'data');
-            $dataFile = sprintf('%s/%s.php', DATA_ROOT, implode('/', $sp));
+    foreach($files as $file){
+        $file = str_replace(':', '/', $file);
+        $file = trimSuffix($file, $conf['suffix']);
+        $sp = explode('/', $file);
+        array_splice($sp, 1, 0, 'data');
+        $dataFile = sprintf('%s/%s.php', DATA_ROOT, implode('/', $sp));
+
+        if(is_file($dataFile)){
+            $data = require $dataFile;
+        }else{
+            $dataFile = sprintf('%s/%s.json', DATA_ROOT, implode('/', $sp));
 
             if(is_file($dataFile)){
-                $data = require $dataFile;
+                $data = json_decode(file_get_contents($dataFile), true);
             }else{
-                $dataFile = sprintf('%s/%s.json', DATA_ROOT, implode('/', $sp));
-
-                if(is_file($dataFile)){
-                    $data = json_decode(file_get_contents($dataFile), true);
-                }else{
-                    $data = array();
-                }    
-            }
-
-            $datas = array_merge($datas, $data);
+                $data = array();
+            }    
         }
+
+        $datas = array_merge($datas, $data);
     }
 
     return $datas;

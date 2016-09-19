@@ -23,7 +23,7 @@ class Resources{
             $mapDirs[] = $dir . '/_map_';
         }
 
-        if($cacheDir = Helper::get($this->options, 'cacheDir')){
+        if(($cacheDir = Helper::get($this->options, 'cacheDir')) && Helper::get($this->options, 'cache')){
             $this->cache = new Cache($cacheDir);
         }
 
@@ -229,7 +229,7 @@ class Resources{
 
         $asyncs = Helper::get($mapInfo, 'asyncs', array());
 
-        if(count($asyncs) && !$isPagelet && !Helper::get($mapInfo, 'isWidget')){
+        if(count($asyncs) && (Helper::get($this->options, 'debug') || !$isPagelet)){
             if(Helper::get($mapInfo, 'headJs')){
                 array_unshift($mapInfo['headJs'], self::LOADER);
             }else{

@@ -91,7 +91,6 @@ class ResourceProvider extends ViewServiceProvider{
             // view composers may be classes registered in the container, which allows
             // for great testable, flexible composers for the application developer.
             $env->setContainer($app);
-            $env->share('app', $app);
 
             //support our extensions
             if (isset($app['config']['view.suffix'])) {
