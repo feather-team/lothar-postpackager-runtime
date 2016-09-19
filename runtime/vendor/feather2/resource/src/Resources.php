@@ -48,7 +48,7 @@ class Resources{
                     if(!$url){
                         $pkgInfo = $this->maps->get($pkgName);
                         //cache pack info
-                        $url = $pkgFounds[$pkgName] = $pkg['url'];
+                        $url = $pkgFounds[$pkgName] = $pkgInfo['url'];
                         $this->urlCache[$url] = $pkgInfo;
                     }
                 }else{
