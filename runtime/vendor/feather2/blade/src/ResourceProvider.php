@@ -19,6 +19,11 @@ class ResourceProvider extends ViewServiceProvider{
         $this->app->singleton('feather.resource', function ($app) {
             $config = $app['config']['view'];
             $config['cacheDir'] = $config['compiled'] . '/feather';
+
+            if (!isset($config['cache'])) {
+                $config['cache'] = true;
+            }
+
             return new Resource\Resources($config['paths'], $config);
         });
     }
@@ -31,9 +36,11 @@ class ResourceProvider extends ViewServiceProvider{
         $this->app->singleton('blade.compiler', function ($app) {
             $cache = $app['config']['view.compiled'];
                 
+            //if blade compiler support directive, use it.
             if (method_exists('Illuminate\\View\\Compilers\\BladeCompiler', 'directive')) {
                 $compiler = new BladeCompiler($app['files'], $cache);
             } else {
+                //compatible
                 $compiler = new Compiler($app['files'], $cache);
             }
 
