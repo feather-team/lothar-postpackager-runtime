@@ -1,6 +1,6 @@
 {
   "name": "lothar-postpackager-runtime",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "lothar,runtime,blade",
   "main": "index.js",
   "scripts": {
@@ -9,15 +9,3 @@
   "author": "jsyczhanghao@sina.com",
   "license": "ISC"
 }
-
-
-
-
-
-
-
-
-
-
-
-

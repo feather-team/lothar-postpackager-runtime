@@ -21,6 +21,7 @@ module.exports = function(ret, conf, setting, opt){
             }
             
             lothar.util.write(www + '/preview/current', name);
+            lothar.util.mkdir(www + '/cache');
             lothar.runtimeCreated = true; 
         }
 
