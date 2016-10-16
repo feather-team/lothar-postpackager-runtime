@@ -26,10 +26,10 @@ module.exports = function(ret, conf, setting, opt){
         }
 
         lothar.util.map(ret.src, function(subpath, file){
-            if(file.isWidget && file.isHtmlLike){
-                var content = file.getContent();
-                
-                if(lothar.isPreviewMode){
+            if(file.isHtmlLike){
+                var content = file.getContent().replace(/<<<BLADE_LABEL_HACK>>>/g, ' ');
+
+                if(file.isWidget && lothar.isPreviewMode){
                     content = "@if(!isset($__isRef))\n@include('common._static_', ['type' => 'head'])\n@endif\n" + content + "\n@if(!isset($__isRef))\n@include('common._static_', ['type' => 'bottom'])\n@endif\n";
                 }
 
