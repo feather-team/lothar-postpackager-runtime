@@ -40,12 +40,16 @@ $config['view'] = [
     'debug' => isset($_GET['debug']),
     'cache' => false
 ];
-$config['view.suffix'] = $conf['suffix'];
 $container['config'] = $config;
 
 (new BladeProvider\ResourceProvider($container))->register();
 
 $data = getData($path, $conf);
+
+if(isset($_GET['debugData'])){
+    var_dump($data);
+}
+
 $data['__debugData'] = $data;
 $blade->share($data);
 
