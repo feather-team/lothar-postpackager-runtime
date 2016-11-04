@@ -1,6 +1,6 @@
 {
   "name": "lothar-postpackager-runtime",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "lothar,runtime,blade",
   "main": "index.js",
   "scripts": {

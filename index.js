@@ -3,13 +3,15 @@
 var path = require('path');
 
 module.exports = function(ret, conf, setting, opt){
-    var files = lothar.util.find(__dirname + '/project/plugins');
+    if(lothar.config.get('project.modulename') == 'common'){
+        var files = lothar.util.find(__dirname + '/project/plugins');
 
-    files.forEach(function(file){
-        var f = lothar.file.wrap(lothar.project.getProjectPath() + '/plugins/' + path.basename(file));
-        f.setContent(lothar.util.read(file));
-        ret.pkg[f.subpath] = f;
-    });
+        files.forEach(function(file){
+            var f = lothar.file.wrap(lothar.project.getProjectPath() + '/plugins/' + path.basename(file));
+            f.setContent(lothar.util.read(file));
+            ret.pkg[f.subpath] = f;
+        });   
+    }
 
     if(lothar.isPreviewMode){
         var name = lothar.config.get('project.name');
