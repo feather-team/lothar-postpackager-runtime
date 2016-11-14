@@ -45,6 +45,11 @@ class Compiler extends BladeCompiler{
         return call_user_func($this->customDirectives[$name], trim($value));
     }
 
+    public function getCompiledPath($path)
+    {   
+        return $this->cachePath . str_replace(array('/', '\\'), '_', $path);
+    }
+
     /**
      * Compile Blade statements that start with "@".
      *
