@@ -19,8 +19,11 @@ class Maps{
         $this->initNameSpaceMap($info['namespace']);
 
         $maps = Helper::get($this->maps, $info['id']);
-        $maps['id'] = $info['id'];
 
+        if($maps){
+            $maps['id'] = $info['id'];
+        }
+        
         return $maps;
     }
 
