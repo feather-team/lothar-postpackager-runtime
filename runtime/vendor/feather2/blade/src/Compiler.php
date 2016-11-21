@@ -47,7 +47,7 @@ class Compiler extends BladeCompiler{
 
     public function getCompiledPath($path)
     {   
-        return $this->cachePath . str_replace(array('/', '\\'), '_', $path);
+        return $this->cachePath . '/' . str_replace(array('/', '\\', ':'), '_', $path);
     }
 
     /**
