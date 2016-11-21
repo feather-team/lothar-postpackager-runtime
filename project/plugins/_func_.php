@@ -1,5 +1,5 @@
 <?php
-function __blade_make__($type, $__env, $id, $data = array(), $oData = array()){
+function __blade_info__($type, $id, $data = array()){
     list($namespace, $id) = explode(':', $id);
     $id = $namespace . '/' . $type . '/' . $id;
 
@@ -11,6 +11,11 @@ function __blade_make__($type, $__env, $id, $data = array(), $oData = array()){
         $pid = $temp[1];
     }
 
+    $data = array(
+        '__id' => $id,
+        '__pid' => $pid
+    );
+
     if($type == 'pagelet'){
         //做个hack，blade的extends，并非真正的继承，section的内容会提前执行，导致引入pagelet时，pagelet中的静态资源会被输出
         $data['FEATHER_PAGELET_INCLUDE'] = true;   
@@ -18,13 +23,7 @@ function __blade_make__($type, $__env, $id, $data = array(), $oData = array()){
 
     $data['__isRef'] = true;
 
-    $content = $__env->make($id, $data, $oData)->render();
-    
-    if($pid){
-        $content = '<textarea style="display: none;" id="' . $pid . '">' . $content . '</textarea>';
-    }
-
-    echo $content;
+    return $data;
 }
 
 function __blade_stripParentheses__($expression){
@@ -33,4 +32,8 @@ function __blade_stripParentheses__($expression){
     }
 
     return $expression;
+}
+
+function __blade_variable__(){
+    return '$v' . substr(md5(mt_rand()), 0, 7);
 }
