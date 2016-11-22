@@ -11,10 +11,8 @@ function __blade_info__($type, $id, $data = array()){
         $pid = $temp[1];
     }
 
-    $data = array(
-        '__id' => $id,
-        '__pid' => $pid
-    );
+    $data['__id'] = $id;
+    $data['__pid'] = $pid;
 
     if($type == 'pagelet'){
         //做个hack，blade的extends，并非真正的继承，section的内容会提前执行，导致引入pagelet时，pagelet中的静态资源会被输出
