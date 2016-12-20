@@ -53,7 +53,13 @@ if(isset($_GET['debugData'])){
 $data['__debugData'] = $data;
 $blade->share($data);
 
-echo $blade->make($path)->render();
+$content = $blade->make($path)->render();
+
+if(isset($_GET['h5debug']) && !preg_match('#<meta name="viewport" #', $content)){
+    $content = '<meta name="viewport" content="initial-scale=1, maximum-scale= 1, minimum-scale=1, user-scalable=no">' . $content;
+}
+
+echo $content;
 
 function trimSuffix($path, $suffix){
     return preg_replace('#\.' . $suffix . '$#', '', $path);
