@@ -13,7 +13,7 @@ if(!array_key_exists('__pid', {$variable})){
 echo '<textarea style=\"display: none;\" id=\"' . {$variable}['__pid'] . '\">';
 echo str_replace('</textarea>', '<\\/textarea>', \$__env->make({$variable}['__id'], {$variable})->render());
 echo '</textarea>';
-echo '<script>(function(){var elem = document.getElementById(\'' . {$variable}['__pid'] . '\');alert(elem.value);elem.value = elem.value.replace(/<\\\\\\\\\\\\/textarea>/g, \'</textarea>\');})();</script>'
+echo '<script>(function(){var elem = document.getElementById(\'' . {$variable}['__pid'] . '\');elem.value = elem.value.replace(/<\\\\\\\\\\\\/textarea>/g, \'</textarea>\');})();</script>'
 ?>
     ";
 }
